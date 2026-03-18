@@ -4,8 +4,8 @@ import { Product } from '../models/product'
 
 export const placeorder = async (c:any) => {
     try {
-        const {customerID,items} = await c.req.json()
-        const customer = await Customer.findById(customerID)
+        const {customerId,items} = await c.req.json()
+        const customer = await Customer.findById(customerId)
 
         if (!customer){
             return c.json({ error: 'Customer not found' }, 404)
@@ -36,7 +36,7 @@ export const placeorder = async (c:any) => {
             totalAmount += product.price * item.quantity
         }
         const order = await Order.create({
-            customer:customerID,
+            customer:customerId,
             products:orderitems,
             totalAmount
         })
