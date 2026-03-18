@@ -35,3 +35,19 @@ export const getproductbyid = async (c:any) => {
         return c.json({ error: 'Invalid ID or server error' }, 500)
     }
 }
+
+export const updateproductbyid = async (c:any) => {
+    try {
+        const id = c.req.param('id')
+        const body = await c.req.json()
+        const updatedproduct = await Product.findByIdAndUpdate(id,body,{ returnDocument: 'after' })
+        if(!updatedproduct){
+            return c.json({error:'product not found'}, 404)
+        }
+        return c.json(updatedproduct)
+    } catch (error) {
+        return c.json({error:'faild to update product'}, 500)
+    }
+}
+
+// export const deleteproductbyid = async (c:)
