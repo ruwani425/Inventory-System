@@ -50,4 +50,15 @@ export const updateproductbyid = async (c:any) => {
     }
 }
 
-// export const deleteproductbyid = async (c:)
+export const deleteproductbyid = async (c:any) => {
+    try {
+        const id = c.req.param('id')
+        const deletedproduct = await Product.findByIdAndDelete(id)
+        if (!deletedproduct) {
+            return c.json({ error: 'Product not found' }, 404)
+        }
+        return c.json({ message: 'Product deleted successfully' })
+    } catch (error) {
+        return c.json({ error: 'Failed to delete product' }, 500)
+    }
+}
