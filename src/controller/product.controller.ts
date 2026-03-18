@@ -22,3 +22,16 @@ export const getallproducts = async (c:any) => {
         return c.json({error:'faild to fetch products'},500)
     }
 }
+
+export const getproductbyid = async (c:any) => {
+    try {
+        const id = c.req.param('id')
+        const product = await Product.findById(id)
+        if(!product){
+            return c.json({error:'failed to fetch product'},404)
+        }
+        return c.json(product)
+    } catch (error) {
+        return c.json({ error: 'Invalid ID or server error' }, 500)
+    }
+}
