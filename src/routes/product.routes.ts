@@ -3,10 +3,10 @@ import { createproduct, deleteproductbyid, getallproducts, getproductbyid, updat
 
 const productRoutes = new Hono()
 
-productRoutes.post('/create', createproduct)
-productRoutes.get('/get', getallproducts)
-productRoutes.get('/get/:id',getproductbyid)
-productRoutes.put('/update/:id',updateproductbyid)
-productRoutes.delete('/delete/:id',deleteproductbyid)
+productRoutes.post('/', createproduct)
+productRoutes.get('/', getallproducts)
+productRoutes.get('/:id',getproductbyid)
+productRoutes.put('/:id',updateproductbyid)
+productRoutes.delete('/:id',deleteproductbyid)
 
 export default productRoutes
