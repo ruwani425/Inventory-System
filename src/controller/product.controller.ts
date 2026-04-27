@@ -1,0 +1,64 @@
+import { Product } from "../models/product"
+
+export const createproduct = async (c:any) => {
+    try {
+        // console.log(c.req)
+
+        const body = await c.req.json()
+        const product = await Product.create(body)
+        // return 'product saved successfully'
+        return c.json(product, 201)
+    } catch (error) {
+        return c.json({ error: 'Failed to save product' }, 500)
+    }
+}
+
+export const getallproducts = async (c:any) => {
+    try {
+        // console.log(c.req)
+        const products = await Product.find()
+        return c.json(products)
+    } catch (error) {
+        return c.json({error:'faild to fetch products'},500)
+    }
+}
+
+export const getproductbyid = async (c:any) => {
+    try {
+        const id = c.req.param('id')
+        const product = await Product.findById(id)
+        if(!product){
+            return c.json({error:'failed to fetch product'},404)
+        }
+        return c.json(product)
+    } catch (error) {
+        return c.json({ error: 'Invalid ID or server error' }, 500)
+    }
+}
+
+export const updateproductbyid = async (c:any) => {
+    try {
+        const id = c.req.param('id')
+        const body = await c.req.json()
+        const updatedproduct = await Product.findByIdAndUpdate(id,body,{ returnDocument: 'after' })
+        if(!updatedproduct){
+            return c.json({error:'product not found'}, 404)
+        }
+        return c.json(updatedproduct)
+    } catch (error) {
+        return c.json({error:'faild to update product'}, 500)
+    }
+}
+
+export const deleteproductbyid = async (c:any) => {
+    try {
+        const id = c.req.param('id')
+        const deletedproduct = await Product.findByIdAndDelete(id)
+        if (!deletedproduct) {
+            return c.json({ error: 'Product not found' }, 404)
+        }
+        return c.json({ message: 'Product deleted successfully' })
+    } catch (error) {
+        return c.json({ error: 'Failed to delete product' }, 500)
+    }
+}
